@@ -1,0 +1,50 @@
+---
+title: "Predicting MPG Based on Features of the Car"
+date:  June 22, 2018
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+## Overview
+The interactive Shiny app is built upon a liner-regression model that uses Car Weight, Transimission Type and Acceleration Speed to predict Miles Per Gallon (MPG). It allows users to enter values of the three predictor and displays the predicted MPG as a result of the input. 
+
+The data source is the internal R data set Motor Trend Car Road Tests (mtcars).
+```{r, warning=F}
+head(mtcars)
+
+```
+
+## Predictive Model
+
+Liner regression is performed to model the relationship between the three predictors and the outcome variable MPG. 
+
+The three predictors: Car Weight, Transimission Type and Acceleration Speed are selected through backwards elimination in the peer-review assignment I compelted for the Regression Model course of the data science specialization. 
+
+Details of the varialbe selection could be found here http://rpubs.com/Halley/regression
+
+## Shiny App User Interface
+
+The app https://hzdataviz.shinyapps.io/shinyassignment/ features a side bar of user defined predictor value and a plot of the prediction. 
+ 
+```{r, warning=F}
+suppressPackageStartupMessages({library(dplyr)})
+suppressPackageStartupMessages({library(ggplot2)})
+library(dplyr)
+library(ggplot2)
+
+data <- mtcars[,c(1,6,7,9)]
+data$am <- as.factor(data$am)
+levels(data$am) <-c("Automatic", "Manual")
+plot <- ggplot(data=data, aes(x=wt, y = mpg))+geom_point(aes(color = am))+
+            geom_smooth(method = "lm")+ theme(legend.title=element_blank())
+plot
+
+```
+
+## Reference and Source Codes
+
+Documentation of the mtcars data set could be found at http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html.
+
+ui.R and server.R files for the shiny app, along with the scripts of the Reproducible Pitch, have been uploaded to my github: https://github.com/halleyzhu/dataproduct
